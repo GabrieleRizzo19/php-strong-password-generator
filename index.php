@@ -1,3 +1,9 @@
+<?php 
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,30 +16,31 @@
     
     <?php 
 
-    session_start();
+        session_start();
 
-    // Includo il file con le funzioni 
-    include __DIR__ . "./partials/functions.php";
-    include __DIR__ . "./partials/variables.php";
-    
-    
+        // Includo il file con le funzioni 
+        include __DIR__ . "./partials/functions.php";
+        include __DIR__ . "./partials/variables.php";
 
-    // Recupero i dati necessari alla creazione della password
-    $passwordLength = ($_GET['passwordLength'] ?? 0);
-    
-    $numberCheckbox = ($_GET['numberCheckbox'] ?? false);
-    $letterCheckbox = ($_GET['letterCheckbox'] ?? false);
-    $specialCheckbox = ($_GET['specialCheckbox'] ?? false);
-    $repeatRadio = ($_GET['repeatRadio'] ?? true);
+        // Recupero i dati necessari alla creazione della password
+        $passwordLength = ($_GET['passwordLength'] ?? 0);
+        
+        $numberCheckbox = ($_GET['numberCheckbox'] ?? false);
+        $letterCheckbox = ($_GET['letterCheckbox'] ?? false);
+        $specialCheckbox = ($_GET['specialCheckbox'] ?? false);
 
-    // Genero la password
-    $_SESSION['password'] = generatePassword($passwordLength, $dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox);
+        $_SESSION['dictionary'] = getDictionary($dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox);
 
-    
+        $repeatRadio = ($_GET['repeatRadio'] ?? true);
 
-    if(strlen($_SESSION['password'] > 0)){
-        header("Location: ./showPassword.php");
-    }
+        // Genero la password
+        if($_SESSION['dictionary'] != ""){
+            $_SESSION['password'] = generatePassword($passwordLength, $_SESSION['dictionary']);
+        }
+
+        if(strlen($_SESSION['password'] > 0)){
+            header("Location: ./showPassword.php");
+        }
 
     ?>
 
@@ -51,7 +58,7 @@
 
                 <div class="mb-4">
                     <label class="me-3" for="passwordLength"><h5>Lunghezza password:</h5> </label>
-                    <input type="number" id="passwordLength" name="passwordLength" value="<?php echo $passwordLength ?>">
+                    <input type="number" id="passwordLength" name="passwordLength">
                 </div>
 
                 <div class="mb-4">

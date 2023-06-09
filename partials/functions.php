@@ -1,23 +1,33 @@
 <?php 
 
-    function generatePassword($passwordLength, $dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox){
-        $password = "";
-
+    function getDictionary($dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox){
         if($numberCheckbox == 'on' && $letterCheckbox == 'on' && $specialCheckbox == 'on'){
-            $dictionary = array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
-        }else if($numberCheckbox == 'on' && $letterCheckbox == 'on'){
-            $dictionary = array_merge($dictionaryAll['number'],$dictionaryAll['letter']);
-        }else if($letterCheckbox == 'on' && $specialCheckbox == 'on'){
-            $dictionary = array_merge($dictionaryAll['letter'],$dictionaryAll['special']);
-        }else if($numberCheckbox == 'on' && $specialCheckbox == 'on'){
-            $dictionary = array_merge($dictionaryAll['number'],$dictionaryAll['special']);
-        }else if($numberCheckbox == 'on'){
-            $dictionary = $dictionaryAll['number'];
-        }else if($letterCheckbox == 'on'){
-            $dictionary = $dictionaryAll['letter'];
-        }else if($specialCheckbox == 'on'){
-            $dictionary = $dictionaryAll['special'];
+            return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
         }
+        if($numberCheckbox == 'on' && $letterCheckbox == 'on'){
+            return array_merge($dictionaryAll['number'],$dictionaryAll['letter']);
+        }
+        if($letterCheckbox == 'on' && $specialCheckbox == 'on'){
+            return array_merge($dictionaryAll['letter'],$dictionaryAll['special']);
+        }
+        if($numberCheckbox == 'on' && $specialCheckbox == 'on'){
+            return array_merge($dictionaryAll['number'],$dictionaryAll['special']);
+        }
+        if($numberCheckbox == 'on'){
+            return $dictionaryAll['number'];
+        }
+        if($letterCheckbox == 'on'){
+            return $dictionaryAll['letter'];
+        }
+        if($specialCheckbox == 'on'){
+            return $dictionaryAll['special'];
+        }
+
+        return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
+    }
+
+    function generatePassword($passwordLength, $dictionary){
+        $password = "";
 
         $dictionaryLength = count($dictionary);
 

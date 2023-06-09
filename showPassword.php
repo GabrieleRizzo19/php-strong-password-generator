@@ -11,8 +11,6 @@
     
         session_start();
 
-        
-
     ?>
 
     <div class="show-password text-break"> 
@@ -20,6 +18,13 @@
     </div>
 
     <a href="index.php">GENERA NUOVA PASSWORD</a>
+
+    <?php 
+    
+        $_SESSION['dictionary'] = "";
+        $_SESSION['password'] = "";
+    
+    ?>
 
 </body>
 </html>
