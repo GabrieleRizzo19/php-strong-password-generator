@@ -31,7 +31,8 @@
 
         $_SESSION['dictionary'] = getDictionary($dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox);
 
-        $repeatRadio = ($_GET['repeatRadio'] ?? true);
+        $repeatRadio = ($_GET['repeatRadio'] ?? 'true');
+        $_SESSION['controllo'] = "";
 
         // Genero la password
         if($_SESSION['dictionary'] != ""){

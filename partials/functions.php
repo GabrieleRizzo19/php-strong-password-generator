@@ -1,5 +1,6 @@
 <?php 
 
+
     function getDictionary($dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox){
         if($numberCheckbox == 'on' && $letterCheckbox == 'on' && $specialCheckbox == 'on'){
             return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
@@ -32,16 +33,24 @@
         $dictionaryLength = count($dictionary);
 
         if($repeatRadio == 'true'){
+            $_SESSION['controllo'] = "senza ripetizioni";
             for($i=0; $i < $passwordLength; $i++){
-                $password .= $dictionary[rand(0, $dictionaryLength-1)];
+                
+                $lastPasswordCharacter = substr($password, -1, 1);
+                $characterToAdd = $dictionary[rand(0, $dictionaryLength-1)];
+                
+                // TERZO UGUALE SMINCHIA TUTTO
+                if($lastPasswordCharacter == $characterToAdd){
+                    $i--;
+                }else{
+                    $password .= $characterToAdd;
+                }
             }
         }else{
+            $_SESSION['controllo'] = "CON ripetizioni";
             for($i=0; $i < $passwordLength; $i++){
-                $lastPasswordCharacter = substr($password, -1);
-                do{
-                    $characterToAdd = $dictionary[rand(0, $dictionaryLength-1)];
-                }while($lastPasswordCharacter == $characterToAdd);
-                $password .= $characterToAdd;
+                $password .= $dictionary[rand(0, $dictionaryLength-1)];
+
             }  
         }
     
