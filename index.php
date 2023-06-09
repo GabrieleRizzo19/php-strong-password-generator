@@ -10,13 +10,23 @@
     
     <?php 
 
+    session_start();
+
+    // Includo il file con le funzioni 
     include __DIR__ . "./partials/functions.php";
     
+    // Creo il dizionario con i possibili caratteri per la password
     $dictionary = array_merge(range('A','Z'), range('a', 'z'), range(0,9));
 
+    // Con get recupero la lunghezza che deve avere la password, in caso di errore si setta su 0
     $passwordLength = ($_GET['passwordLength'] ?? 0);
 
-    $password = generatePassword($passwordLength, $dictionary);
+    // Genero la password
+    $_SESSION['password'] = generatePassword($passwordLength, $dictionary);
+
+    if(strlen($_SESSION['password'] > 0)){
+        header("Location: ./showPassword.php");
+    }
 
     ?>
 
@@ -30,14 +40,10 @@
         <main>
             <div class="main-wrapper text-center">
 
-                <div class="show-password"> 
-                    La tua password è <strong> <?php echo $password ?> </strong>
-                </div>
-
                 <form action="index.php" method="get" class="bg-light py-3">
 
                 <label class="fw-bold me-3" for="passwordLength">Inserisci la lunghezza: </label>
-                <input type="number" id="passwordLength" name="passwordLength">
+                <input type="number" id="passwordLength" name="passwordLength" value="<?php echo $passwordLength ?>">
 
                 <button class="btn btn-primary" type="submit">GENERA</button>
                 <button class="btn btn-primary" type="reset">RESET</button>
