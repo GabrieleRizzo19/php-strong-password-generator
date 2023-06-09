@@ -14,15 +14,22 @@
 
     // Includo il file con le funzioni 
     include __DIR__ . "./partials/functions.php";
+    include __DIR__ . "./partials/variables.php";
     
-    // Creo il dizionario con i possibili caratteri per la password
-    $dictionary = array_merge(range('A','Z'), range('a', 'z'), range(0,9));
+    
 
-    // Con get recupero la lunghezza che deve avere la password, in caso di errore si setta su 0
+    // Recupero i dati necessari alla creazione della password
     $passwordLength = ($_GET['passwordLength'] ?? 0);
+    
+    $numberCheckbox = ($_GET['numberCheckbox'] ?? false);
+    $letterCheckbox = ($_GET['letterCheckbox'] ?? false);
+    $specialCheckbox = ($_GET['specialCheckbox'] ?? false);
+    $repeatRadio = ($_GET['repeatRadio'] ?? true);
 
     // Genero la password
-    $_SESSION['password'] = generatePassword($passwordLength, $dictionary);
+    $_SESSION['password'] = generatePassword($passwordLength, $dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox);
+
+    
 
     if(strlen($_SESSION['password'] > 0)){
         header("Location: ./showPassword.php");
@@ -42,8 +49,39 @@
 
                 <form action="index.php" method="get" class="bg-light py-3">
 
-                <label class="fw-bold me-3" for="passwordLength">Inserisci la lunghezza: </label>
-                <input type="number" id="passwordLength" name="passwordLength" value="<?php echo $passwordLength ?>">
+                <div class="mb-4">
+                    <label class="me-3" for="passwordLength"><h5>Lunghezza password:</h5> </label>
+                    <input type="number" id="passwordLength" name="passwordLength" value="<?php echo $passwordLength ?>">
+                </div>
+
+                <div class="mb-4">
+                    <h5>Scegli quali caratteri usare</h5>
+                    <div>
+                        <label for="numberCheckbox">NUMERI:</label>
+                        <input type="checkbox" name="numberCheckbox" id="numberCheckbox">
+                    </div>
+
+                    <div>
+                        <label for="letterCheckbox">LETTERE:</label>
+                        <input type="checkbox" name="letterCheckbox" id="letterCheckbox">
+                    </div>
+
+                    <div>
+                        <label for="specialCheckbox">CARATTERI SPECIALI:</label>
+                        <input type="checkbox" name="specialCheckbox" id="specialCheckbox">
+                    </div>
+                </div>
+
+                
+
+                <div class="mb-4">
+                    <h5>Consenti ripetizione di caratteri</h5>
+                    <label for="repeatRadioYes">SI</label>
+                    <input type="radio" name="repeatRadio" id="repeatRadioYes" value="true">
+                    <label for="repeatRadioYes">NO</label>
+                    <input type="radio" name="repeatRadio" id="repeatRadioNo" value="false">
+                </div>
+
 
                 <button class="btn btn-primary" type="submit">GENERA</button>
                 <button class="btn btn-primary" type="reset">RESET</button>
