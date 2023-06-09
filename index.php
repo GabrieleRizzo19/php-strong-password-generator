@@ -10,17 +10,7 @@
     
     <?php 
 
-    function generatePassword($passwordLength, $dictionary){
-        $password = "";
-
-        $dictionaryLength = count($dictionary);
-
-        for($i=0; $i < $passwordLength; $i++){
-            $password .= $dictionary[rand(0, $dictionaryLength)];
-        }
-        
-        return $password;
-    }
+    include __DIR__ . "./partials/functions.php";
     
     $dictionary = array_merge(range('A','Z'), range('a', 'z'), range(0,9));
 
