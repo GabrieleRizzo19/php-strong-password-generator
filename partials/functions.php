@@ -2,29 +2,23 @@
 
 
     function getDictionary($dictionaryAll, $numberCheckbox, $letterCheckbox, $specialCheckbox){
-        if($numberCheckbox == 'on' && $letterCheckbox == 'on' && $specialCheckbox == 'on'){
-            return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
-        }
-        if($numberCheckbox == 'on' && $letterCheckbox == 'on'){
-            return array_merge($dictionaryAll['number'],$dictionaryAll['letter']);
-        }
-        if($letterCheckbox == 'on' && $specialCheckbox == 'on'){
-            return array_merge($dictionaryAll['letter'],$dictionaryAll['special']);
-        }
-        if($numberCheckbox == 'on' && $specialCheckbox == 'on'){
-            return array_merge($dictionaryAll['number'],$dictionaryAll['special']);
-        }
+        
+        $dictionary = [];
+        
         if($numberCheckbox == 'on'){
-            return $dictionaryAll['number'];
+            $dictionary = array_merge($dictionary, $dictionaryAll['number']);
         }
         if($letterCheckbox == 'on'){
-            return $dictionaryAll['letter'];
+            $dictionary = array_merge($dictionary, $dictionaryAll['letter']);
         }
         if($specialCheckbox == 'on'){
-            return $dictionaryAll['special'];
+            $dictionary = array_merge($dictionary, $dictionaryAll['special']);
+        }
+        if(!$dictionary){
+            $dictionary = array_merge($dictionary, $dictionaryAll['special'],$dictionaryAll['number'],$dictionaryAll['letter'],);
         }
 
-        return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
+        return $dictionary;
     }
 
     function generatePassword($passwordLength, $dictionary, $repeatRadio){
@@ -33,24 +27,20 @@
         $dictionaryLength = count($dictionary);
 
         if($repeatRadio == 'true'){
-            $_SESSION['controllo'] = "senza ripetizioni";
             for($i=0; $i < $passwordLength; $i++){
-                
+                $password .= $dictionary[rand(0, $dictionaryLength-1)];
+            }
+        }else{
+            for($i=0; $i < $passwordLength; $i++){
                 $lastPasswordCharacter = substr($password, -1, 1);
                 $characterToAdd = $dictionary[rand(0, $dictionaryLength-1)];
-                
+
                 // TERZO UGUALE SMINCHIA TUTTO
                 if($lastPasswordCharacter == $characterToAdd){
                     $i--;
                 }else{
                     $password .= $characterToAdd;
                 }
-            }
-        }else{
-            $_SESSION['controllo'] = "CON ripetizioni";
-            for($i=0; $i < $passwordLength; $i++){
-                $password .= $dictionary[rand(0, $dictionaryLength-1)];
-
             }  
         }
     

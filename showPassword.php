@@ -16,9 +16,6 @@
     <div class="show-password text-break"> 
         La tua password è <strong> <?php echo $_SESSION['password'] ?> </strong>
     </div>
-    <div>
-        <p>CONTROLLO È: <?php echo $_SESSION['controllo'] ?></p>
-    </div>
 
     <a href="index.php">GENERA NUOVA PASSWORD</a>
 

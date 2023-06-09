@@ -59,7 +59,7 @@
                 <form action="index.php" method="get" class="bg-light py-3">
 
                 <div class="mb-4">
-                    <label class="me-3" for="passwordLength"><h5>Lunghezza password:</h5> </label>
+                    <label class="me-3" for="passwordLength"><h5>Lunghezza password: </h5> </label>
                     <input type="number" id="passwordLength" name="passwordLength">
                 </div>
 
