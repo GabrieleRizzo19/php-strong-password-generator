@@ -26,15 +26,25 @@
         return array_merge($dictionaryAll['number'],$dictionaryAll['letter'],$dictionaryAll['special']);
     }
 
-    function generatePassword($passwordLength, $dictionary){
+    function generatePassword($passwordLength, $dictionary, $repeatRadio){
         $password = "";
 
         $dictionaryLength = count($dictionary);
 
-        for($i=0; $i < $passwordLength; $i++){
-            $password .= $dictionary[rand(0, $dictionaryLength)];
+        if($repeatRadio == 'true'){
+            for($i=0; $i < $passwordLength; $i++){
+                $password .= $dictionary[rand(0, $dictionaryLength-1)];
+            }
+        }else{
+            for($i=0; $i < $passwordLength; $i++){
+                $lastPasswordCharacter = substr($password, -1);
+                do{
+                    $characterToAdd = $dictionary[rand(0, $dictionaryLength-1)];
+                }while($lastPasswordCharacter == $characterToAdd);
+                $password .= $characterToAdd;
+            }  
         }
-        
+    
         return $password;
     }
 

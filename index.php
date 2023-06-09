@@ -35,12 +35,13 @@
 
         // Genero la password
         if($_SESSION['dictionary'] != ""){
-            $_SESSION['password'] = generatePassword($passwordLength, $_SESSION['dictionary']);
+            $_SESSION['password'] = generatePassword($passwordLength, $_SESSION['dictionary'], $repeatRadio);
         }
 
         if(strlen($_SESSION['password'] > 0)){
             header("Location: ./showPassword.php");
         }
+
 
     ?>
 
@@ -84,8 +85,8 @@
                 <div class="mb-4">
                     <h5>Consenti ripetizione di caratteri</h5>
                     <label for="repeatRadioYes">SI</label>
-                    <input type="radio" name="repeatRadio" id="repeatRadioYes" value="true">
-                    <label for="repeatRadioYes">NO</label>
+                    <input type="radio" name="repeatRadio" id="repeatRadioYes" value="true" checked>
+                    <label for="repeatRadioNo">NO</label>
                     <input type="radio" name="repeatRadio" id="repeatRadioNo" value="false">
                 </div>
 
